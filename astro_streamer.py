@@ -28,7 +28,7 @@ def on_message(client, userdata, message):
 
   if (message.topic == "click"):
     print("taking picture")
-    camera.capture('pic.jpg',use_video_port=True)
+    camera.capture('./images/pic.jpg',use_video_port=True)
 
 PAGE="""\
 <html>
