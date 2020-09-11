@@ -30,6 +30,21 @@ def on_message(client, userdata, message):
     print("taking picture")
     camera.capture('./images/pic.jpg',use_video_port=True)
 
+  if (message.topic == "preview"):
+    print ("got preview")
+    my_payload = str(message.payload.decode("utf-8"))
+    if (my_payload == "off"):
+      print("Stopping preview")
+      camera.stop_preview()
+    elif (my_payload == "full"):
+      print("full preview on")
+      camera.start_preview(fullscreen=True)
+    else:
+      print("Starting preview")
+      camera.start_preview(fullscreen=False,window=(100,100,640,480))
+
+
+
 PAGE="""\
 <html>
 <head>
@@ -113,6 +128,7 @@ client.loop_start()
 client.subscribe("iso")
 client.subscribe("rot")
 client.subscribe("click")
+client.subscribe("preview")
 
 #with picamera.PiCamera(resolution='1920x1080', framerate=24) as camera:
 if True:
