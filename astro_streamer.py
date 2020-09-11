@@ -9,9 +9,14 @@ from http import server
 import paho.mqtt.client as mqtt
 import time
 
+file_index = 0
+file_name = ""
+
 # Callback for simple message
 def on_message(client, userdata, message):
   global camera
+  global file_index
+  global file_name
 
   print("message received: ", str(message.payload.decode("utf-8")))
   print("message topic=", message.topic)
@@ -27,8 +32,14 @@ def on_message(client, userdata, message):
     camera.rotation = int(message.payload) 
 
   if (message.topic == "click"):
-    print("taking picture")
-    camera.capture('./images/pic.jpg',use_video_port=True)
+    if (file_name == ""):
+      print("filename not set")
+      return
+    this_filename = "images/" + file_name + str(file_index) + ".jpg"
+    print("taking picture " + this_filename)
+    camera.capture(this_filename,use_video_port=True)
+    file_index = file_index + 1
+    print("done")
 
   if (message.topic == "preview"):
     print ("got preview")
@@ -42,6 +53,11 @@ def on_message(client, userdata, message):
     else:
       print("Starting preview")
       camera.start_preview(fullscreen=False,window=(100,100,640,480))
+
+  if (message.topic == "name"):
+    file_name = str(message.payload.decode("utf-8"))
+    file_index = 0
+    print("setting output filename to "+file_name)
 
 
 
@@ -129,6 +145,7 @@ client.subscribe("iso")
 client.subscribe("rot")
 client.subscribe("click")
 client.subscribe("preview")
+client.subscribe("name")
 
 #with picamera.PiCamera(resolution='1920x1080', framerate=24) as camera:
 if True:
