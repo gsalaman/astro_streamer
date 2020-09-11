@@ -22,6 +22,13 @@ def on_message(client, userdata, message):
     print("Got iso change")
     camera.iso = int(message.payload) 
 
+  if (message.topic == "rot"):
+    print("Got rotation change")
+    camera.rotation = int(message.payload) 
+
+  if (message.topic == "click"):
+    print("taking picture")
+    camera.capture('pic.jpg',use_video_port=True)
 
 PAGE="""\
 <html>
@@ -30,7 +37,7 @@ PAGE="""\
 </head>
 <body>
 <center><h1>Glenn's Raspberry Pi Stream</h1></center>
-<center><img src="stream.mjpg" width="640" height="480"></center>
+<center><img src="stream.mjpg" width="1024" height="768"></center>
 </body>
 </html>
 """
@@ -104,10 +111,12 @@ client.on_message=on_message
 client.connect(broker_address)
 client.loop_start()
 client.subscribe("iso")
+client.subscribe("rot")
+client.subscribe("click")
 
-#with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
+#with picamera.PiCamera(resolution='1920x1080', framerate=24) as camera:
 if True:
-    camera = picamera.PiCamera(resolution='640x480',framerate=24)
+    camera = picamera.PiCamera(resolution='1920x1080',framerate=24)
 
     output = StreamingOutput()
     #Uncomment the next line to change your Pi's Camera rotation (in degrees)
