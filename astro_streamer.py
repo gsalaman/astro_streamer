@@ -9,10 +9,11 @@ from http import server
 import paho.mqtt.client as mqtt
 import time
 
+framerate = 1 
+
 file_index = 0
 file_name = ""
 
-# Callback for simple message
 def on_message(client, userdata, message):
   global camera
   global file_index
@@ -59,6 +60,12 @@ def on_message(client, userdata, message):
     file_index = 0
     print("setting output filename to "+file_name)
 
+  if (message.topic == "ss"):
+    if (str(message.payload.decode("utf-8")) == "get"):
+      print("current speed: " + str(camera.exposure_speed))
+    else:
+      camera.shutter_speed = int(message.payload)
+      print("setting shutter speed")
 
 
 PAGE="""\
@@ -146,10 +153,11 @@ client.subscribe("rot")
 client.subscribe("click")
 client.subscribe("preview")
 client.subscribe("name")
+client.subscribe("ss")
 
 #with picamera.PiCamera(resolution='1920x1080', framerate=24) as camera:
 if True:
-    camera = picamera.PiCamera(resolution='1920x1080',framerate=24)
+    camera = picamera.PiCamera(resolution='1920x1080',framerate=framerate)
 
     output = StreamingOutput()
     #Uncomment the next line to change your Pi's Camera rotation (in degrees)
