@@ -9,7 +9,7 @@ from http import server
 import paho.mqtt.client as mqtt
 import time
 
-framerate = 1 
+framerate = 24 
 
 file_index = 0
 file_name = ""
@@ -75,7 +75,7 @@ PAGE="""\
 </head>
 <body>
 <center><h1>Glenn's Raspberry Pi Stream</h1></center>
-<center><img src="stream.mjpg" width="1024" height="768"></center>
+<center><img src="stream.mjpg" width="950" height="540"></center>
 </body>
 </html>
 """
