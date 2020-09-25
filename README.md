@@ -1,5 +1,13 @@
 # astro_streamer
 
+## next improvements
+* CHANGE PORT!!!
+* add exif data to pictures
+* split stream vs picture so that I can "click" 12mp updates
+* "click" takes number that gives number of pics
+
+
+# OLD:
 Next experiments:
 * can I take pics whilst doing the stream?  Start with 640x480  - yes!
 * can I stream in 1080p with the HQ cam?  Its that the default? -yes, specify 1920x1080
