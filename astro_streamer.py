@@ -27,6 +27,7 @@ def on_message(client, userdata, message):
   if (message.topic == "iso"):
     print("Got iso change")
     camera.iso = int(message.payload) 
+    camera.exif_tags['EXIF.ISOSpeedRatings'] = message.payload
 
   if (message.topic == "rot"):
     print("Got rotation change")
