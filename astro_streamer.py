@@ -67,6 +67,7 @@ def on_message(client, userdata, message):
     else:
       camera.shutter_speed = int(message.payload)
       print("setting shutter speed")
+      # camera.exif_tags['EXIF.ExposureTime'] = '1/1000' 
 
 
 PAGE="""\
@@ -159,14 +160,12 @@ client.subscribe("ss")
 #with picamera.PiCamera(resolution='1920x1080', framerate=24) as camera:
 if True:
     camera = picamera.PiCamera(resolution='1920x1080',framerate=framerate)
+    #camera.annotate_text = 'Glenn rules!!!'
 
     output = StreamingOutput()
-    #Uncomment the next line to change your Pi's Camera rotation (in degrees)
-    #camera.rotation = 90
-    #camera.iso = 400 
     camera.start_recording(output, format='mjpeg')
     try:
-        address = ('', 8000)
+        address = ('', 6969)
         server = StreamingServer(address, StreamingHandler)
         server.serve_forever()
     finally:
